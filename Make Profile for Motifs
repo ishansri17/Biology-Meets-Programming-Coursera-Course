@@ -25,3 +25,19 @@ def Profile(Motifs):
 
     return profile
     
+def Profile_v2(Motifs):
+    k = len(Motifs[0])
+    l = len(Motifs)
+    profile = {}
+    profile1 = Count(Motifs)
+    for key in profile1:
+        profile[key] = [x/10 for x in profile1[key]]
+    return profile
+
+def Profile_v3(Motifs):
+    k = len(Motifs[0])
+    l = len(Motifs)
+    count = Count(Motifs)
+    for key, val in count.items():
+        count[key] = [val[i]/l for i in range(len(val))]
+    return count
