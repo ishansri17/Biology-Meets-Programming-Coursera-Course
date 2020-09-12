@@ -1,0 +1,8 @@
+def WeightedDie(Probabilities):
+    count = 0
+    p = random.uniform(0, 1)
+    print(p)
+    for keys, values in Probabilities.items():
+        count = count + values
+        if p < count:
+            return keys
