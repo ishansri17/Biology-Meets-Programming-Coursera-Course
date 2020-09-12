@@ -1,0 +1,28 @@
+def WeightedDie(Probabilities):
+    count = 0
+    p = random.uniform(0, 1)
+    print(p)
+    for keys, values in Probabilities.items():
+        count = count + values
+        if p < count:
+            return keys
+
+def Normalize(Probabilities):
+    n = {}
+    # your code here
+    total = 0
+    for key in Probabilities:
+        total += Probabilities[key]
+    for key in Probabilities:
+        n[key] = Probabilities[key]/total
+    return n 
+    
+def ProfileGeneratedString(Text, profile, k):
+    # your code here
+    n = len(Text)
+    probabilities = {}
+    for i in range(0,n-k+1):
+        probabilities[Text[i:i+k]] = Pr(Text[i:i+k], profile)
+
+    probabilities = Normalize(probabilities)
+    return WeightedDie(probabilities)
