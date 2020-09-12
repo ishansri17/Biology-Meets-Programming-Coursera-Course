@@ -1,0 +1,9 @@
+def Normalize(Probabilities):
+    n = {}
+    # your code here
+    total = 0
+    for key in Probabilities:
+        total += Probabilities[key]
+    for key in Probabilities:
+        n[key] = Probabilities[key]/total
+    return n
