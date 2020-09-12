@@ -1,0 +1,19 @@
+def Pr(Text, Profile):
+    t = len(Text)
+    prob = 1
+    for i in range(t):
+        prob = prob * Profile[Text[i]][i]
+    return prob
+
+def ProfileMostProbableKmer(text, k, profile):
+    d = {}
+    l = []
+    for i in range(len(text)-k+1):
+        kmer = text[i:i+k]
+        prob = Pr(kmer, profile)
+        d[kmer] = prob
+        m = max(d.values()) #or do return max(d, key=d.get)
+    for key, value in d.items():
+        if d[key] == m:
+            l.append(key)
+    return l[0]
