@@ -1,0 +1,28 @@
+def CountWithPseudocounts(Motifs):
+    t = len(Motifs)
+    k = len(Motifs[0])
+    # insert your code here
+    d = {}
+    for symbol in "ACGT":
+        d[symbol] = []
+        for j in range(k):
+            d[symbol].append(1)
+    for i in range(t):
+        for j in range(k):
+            symbol = Motifs[i][j]
+            d[symbol][j] += 1
+    return d
+
+def ProfileWithPseudocounts(Motifs):
+    t = len(Motifs)
+    k = len(Motifs[0])
+    profile = {} # output variable
+    # your code here
+    count = CountWithPseudocounts(Motifs)
+    for i in range(k):
+        total = 0
+        for symbol in "ACGT":
+            total += count[symbol][i]
+        for key in count:
+            profile[key] = [count[key][x]/total for x in range(len(count[key]))]
+    return profile  
