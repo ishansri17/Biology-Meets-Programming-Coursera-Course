@@ -1,0 +1,121 @@
+import random
+
+def Count(Motifs):
+    count = {}  # initializing the count dictionary
+    # your code here
+    t = len(Motifs[0]) #len of first motif
+    for symbol in "ATCG":
+        count[symbol] = []
+        for i in range(t):
+            count[symbol].append(0)
+    k = len(Motifs)
+    for i in range(k):
+        for j in range(t):
+            symbol = Motifs[i][j]
+            count[symbol][j] += 1
+
+    return count
+
+# Input:  A set of kmers Motifs
+# Output: A consensus string of Motifs.
+def Consensus(Motifs):
+    k = len(Motifs[0])
+    count = Count(Motifs)
+    consensus = ""
+    for j in range(k):
+        m = 0
+        frequentSymbol = ""
+        for symbol in "ACGT":
+            if count[symbol][j] > m:
+                m = count[symbol][j]
+                frequentSymbol = symbol
+        consensus += frequentSymbol
+
+    return consensus
+
+# Input:  A set of k-mers Motifs
+# Output: The score of these k-mers.
+def Score(Motifs):
+    # Insert code here
+    score = []
+    consensus = Consensus(Motifs)
+    k = len(Motifs[0])
+    l = len(Motifs)
+    for j in range(k):
+        sum = 0
+        for i in range(l):
+            symbol = Motifs[i][j]
+            if symbol != consensus[j]:
+                sum += 1
+        score.append(sum)
+    total = 0
+    for val in range(len(score)):
+        total += score[val]
+    return total
+
+def CountWithPseudocounts(Motifs):
+    t = len(Motifs)
+    k = len(Motifs[0])
+    # insert your code here
+    d = {}
+    for symbol in "ACGT":
+        d[symbol] = []
+        for j in range(k):
+            d[symbol].append(1)
+    for i in range(t):
+        for j in range(k):
+            symbol = Motifs[i][j]
+            d[symbol][j] += 1
+    return d
+
+def ProfileWithPseudocounts(Motifs):
+    t = len(Motifs)
+    k = len(Motifs[0])
+    profile = {} # output variable
+    # your code here
+    count = CountWithPseudocounts(Motifs)
+    for i in range(k):
+        total = 0
+        for symbol in "ACGT":
+            total += count[symbol][i]
+        for key in count:
+            profile[key] = [count[key][x]/total for x in range(len(count[key]))]
+    return profile
+    
+def ProfileGeneratedString(Text, profile, k):
+    # your code here
+    n = len(Text)
+    probabilities = {}
+    for i in range(0,n-k+1):
+        probabilities[Text[i:i+k]] = Pr(Text[i:i+k], profile)
+
+    probabilities = Normalize(probabilities)
+    return WeightedDie(probabilities)
+    
+def RandomMotifs(Dna, k, t):
+    # place your code here.
+    rand = []
+    l = len(Dna[0])
+    for i in range(t):
+        kmer = random.randint(0, l-k+1)
+        rand.append(Dna[i][kmer:kmer+k])
+        print(rand)
+    return rand
+
+def GibbsSampler(Dna, k, t, N):
+    BestMotifs = [] # output variable
+    Motifs = RandomMotifs(Dna, k, t)
+    #print(Motifs)
+    BestMotifs = Motifs
+    for j in range(N):
+        i = random.randint(0,t-1)
+        new_Motif = []
+        for k1 in range(t):
+            if k1!=i:
+                new_Motif.append(Motifs[k1])
+        profile = ProfileWithPseudocounts(new_Motif)
+        motif_i = ProfileGeneratedString(Dna[i], profile, k)
+        Motifs[i] = motif_i
+        if Score(Motifs)<Score(BestMotifs):
+            BestMotifs = Motifs
+    return BestMotifs
