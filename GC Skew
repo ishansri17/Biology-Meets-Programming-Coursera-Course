@@ -1,0 +1,13 @@
+# Input:  A String Genome
+# Output: SkewArray(Genome) (diff between total number of G and C encountered so far)
+def SkewArray(Genome):
+    # your code here
+    skew = [0]
+    for i in range(len(Genome)):
+        if Genome[i] == "G":
+            skew.append(skew[i] + 1)
+        elif Genome[i] =="C":
+            skew.append(skew[i] - 1)
+        else:
+            skew.append(skew[i])
+    return skew
