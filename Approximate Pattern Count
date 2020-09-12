@@ -1,0 +1,16 @@
+def HammingDistance(p, q):
+    # your code here
+    count = 0
+    for i in range(len(p)):
+        if p[i] != q[i]:
+            count += 1
+    return count
+
+def ApproximatePatternCount(Pattern, Text, d):
+    count = 0 # initialize count variable
+    # your code here
+    for i in range(len(Text)-len(Pattern) + 1):
+        pattern = Text[i:i+len(Pattern)]
+        if HammingDistance(Pattern, pattern) <= d:
+            count += 1
+    return count
