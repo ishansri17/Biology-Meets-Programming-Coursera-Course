@@ -1,0 +1,17 @@
+def PatternCount(Text, Pattern):
+    count = 0
+    for i in range(len(Text)-len(Pattern)+1):
+        if Text[i:i+len(Pattern)] == Pattern:
+            count = count+1
+    return count
+
+#Retuens symbol array of gene corresp to symbol (total number of specific symbol in each window)
+def SymbolArray(Genome, symbol):
+    array={}
+    l=len(Genome)
+    ExtendedGenome=Genome + Genome[0:l//2]
+    for i in range(l):
+        array[i]=PatternCount(symbol,ExtendedGenome[i:(i+l//2)])
+    return array
+    
+    
