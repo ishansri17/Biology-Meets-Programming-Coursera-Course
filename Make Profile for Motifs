@@ -1,0 +1,27 @@
+def Count(Motifs):
+    count = {}  # initializing the count dictionary
+    # your code here
+    t = len(Motifs[0]) #len of first motif
+    for symbol in "ATCG":
+        count[symbol] = []
+        for i in range(t):
+            count[symbol].append(0)
+    k = len(Motifs)
+    for i in range(k):
+        for j in range(t):
+            symbol = Motifs[i][j]
+            count[symbol][j] += 1
+
+    return count
+    
+def Profile(Motifs):
+    profile = Count(Motifs)
+    t = len(Motifs)
+    k = len(Motifs[0])
+
+    for i in profile:
+        for j in range(k):
+            profile[i][j] = profile[i][j] / t
+
+    return profile
+    
