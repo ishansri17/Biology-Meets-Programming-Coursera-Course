@@ -1,0 +1,20 @@
+def ProfileMostProbablePattern(text,k,profile):
+    p=-1
+    result = ""
+    for i in range(len(text)-k+1):
+        seq=text[i:i+k]
+        pr=Pr(seq,profile)
+        if pr>p:
+            p=pr
+            result=seq
+    return result
+
+def Motifs(Profile, Dna):
+    # insert your code here
+    l = []
+    k = len(Dna)
+    m = len(Profile["A"]) #len of profile row resembling kmer wanted length
+    for i in range(k):
+        motif = ProfileMostProbablePattern(Dna[i], m, Profile)
+        l.append(motif)
+    return l
