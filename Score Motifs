@@ -1,0 +1,49 @@
+
+def Count(Motifs):
+    count = {}  # initializing the count dictionary
+    t = len(Motifs[0]) #len of first motif
+    for symbol in "ATCG":
+        count[symbol] = []
+        for i in range(t):
+            count[symbol].append(0)
+    k = len(Motifs)
+    for i in range(k):
+        for j in range(t):
+            symbol = Motifs[i][j]
+            count[symbol][j] += 1
+
+    return count
+
+def Consensus(Motifs):
+    k = len(Motifs[0])
+    count = Count(Motifs)
+    consensus = ""
+    for j in range(k):
+        m = 0
+        frequentSymbol = ""
+        for symbol in "ACGT":
+            if count[symbol][j] > m:
+                m = count[symbol][j]
+                frequentSymbol = symbol
+        consensus += frequentSymbol
+
+    return consensus
+
+# Input:  A set of k-mers Motifs
+# Output: The score of these k-mers.
+def Score(Motifs):
+    score = []
+    consensus = Consensus(Motifs)
+    k = len(Motifs[0])
+    l = len(Motifs)
+    for j in range(k):
+        sum = 0
+        for i in range(l):
+            symbol = Motifs[i][j]
+            if symbol != consensus[j]:
+                sum += 1
+        score.append(sum)
+    total = 0
+    for val in range(len(score)):
+        total += score[val]
+    return total
