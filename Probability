@@ -1,0 +1,6 @@
+def Pr(Text, Profile):
+    t = len(Text)
+    prob = 1
+    for i in range(t):
+        prob = prob * Profile[Text[i]][i]
+    return prob
