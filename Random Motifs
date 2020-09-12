@@ -1,0 +1,26 @@
+import random
+# Input:  A list of strings Dna, and integers k and t
+# Output: RandomMotifs(Dna, k, t)
+# HINT:   You might not actually need to use t since t = len(Dna), but you may find it convenient
+def RandomMotifs(Dna, k, t):
+    # place your code here.
+    rand = []
+    l = len(Dna[0])
+    for i in range(t):
+        kmer = random.randint(0, l-k+1)
+        rand.append(Dna[i][kmer:kmer+k])
+        print(rand)
+    return rand
+
+def RandomizedMotifSearch(Dna, k, t):
+
+    M = RandomMotifs(Dna, k, t)
+    BestMotifs = M
+
+    while True:
+        Profile = ProfileWithPseudocounts(M)
+        M = Motifs(Profile, Dna)
+        if Score(M) < Score(BestMotifs):
+            BestMotifs = M
+        else:
+            return BestMotifs
